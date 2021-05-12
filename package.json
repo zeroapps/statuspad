@@ -1,0 +1,30 @@
+{
+  "name": "statuspad",
+  "version": "1.0.0",
+  "description": "Incident Response Management App",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeroapps/statuspad.git"
+  },
+  "keywords": [
+    "Status",
+    "Page",
+    "Incident",
+    "Reponse",
+    "ITSM"
+  ],
+  "author": "ZeroApps",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zeroapps/statuspad/issues"
+  },
+  "homepage": "https://github.com/zeroapps/statuspad#readme",
+  "dependencies": {
+    "koa": "^2.13.1"
+  }
+}
