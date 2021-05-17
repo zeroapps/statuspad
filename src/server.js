@@ -6,6 +6,9 @@ const koaBody = require("koa-body");
 const serve = require("koa-static");
 const render = require("koa-ejs");
 const router = require("./routes");
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
 
 // Init Application
 if (!config.SESSION_SECRET) {
@@ -38,6 +41,16 @@ render(app, {
   debug: false,
 });
 
+async function createTestUser() {
+  await prisma.user.create({
+    data: {
+      email: `alice${Date.now()}@prisma.io`,
+      password: "asdfasdf",
+    },
+  });
+}
+
 app.listen(config.PORT, config.HOST, () => {
+  createTestUser();
   console.log(`Application started at http://${config.HOST}:${config.PORT}`);
 });

@@ -26,11 +26,18 @@
   "homepage": "https://github.com/zeroapps/statuspad#readme",
   "dependencies": {
     "@koa/router": "^10.0.0",
+    "@prisma/client": "^2.22.1",
     "dotenv": "^9.0.2",
     "koa": "^2.13.1",
     "koa-body": "^4.2.0",
     "koa-ejs": "^4.3.0",
     "koa-session": "^6.2.0",
     "koa-static": "^5.0.0"
+  },
+  "devDependencies": {
+    "prisma": "^2.22.1"
+  },
+  "prisma": {
+    "schema": "src/database/prisma/schema.prisma"
   }
 }
