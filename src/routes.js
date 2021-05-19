@@ -1,7 +1,14 @@
 const router = require("@koa/router")();
-const { getLoginPage } = require("./controllers/auth/login");
+const { getLogin } = require("./controllers/admin/auth");
+const isAuthenticated = require("./middlewares/admin/auth");
 
-// Auth Routes
-router.get("/login", getLoginPage);
+// Admin Routes
+router.get("/admin/login", getLogin);
+router.get("/admin/setup", async (ctx) => {
+  return (ctx.body = "Setup Page");
+});
+router.get("/admin/dashboard", isAuthenticated, async (ctx) => {
+  return (ctx.body = "Dashboard");
+});
 
 module.exports = router;

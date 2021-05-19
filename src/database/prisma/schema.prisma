@@ -13,6 +13,8 @@ generator client {
 
 model User {
   id      Int      @default(autoincrement()) @id
+  fullname String?
   email   String   @unique
   password String
+  isSuperAdmin Boolean @default(false)
 }
