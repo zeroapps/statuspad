@@ -22,6 +22,8 @@ app.proxy = true;
 app.keys = [config.SESSION_SECRET];
 
 // Middlewares
+
+// To catch 404 Pages
 app.use(async (ctx, next) => {
   await next();
   if (ctx.status === 404) {
