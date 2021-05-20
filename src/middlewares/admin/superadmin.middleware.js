@@ -1,7 +1,4 @@
-const {
-  ADMIN_LOGIN_ROUTE,
-  ADMIN_SETUP_ROUTE,
-} = require("../../constants/routes/admin.constant");
+const { ADMIN_ROUTES } = require("../../constants/admin.constant");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
@@ -12,7 +9,7 @@ const checkSuperAdminExists = async (ctx, next) => {
   if (superAdminUser) {
     await next();
   } else {
-    return ctx.redirect(ADMIN_SETUP_ROUTE);
+    return ctx.redirect(ADMIN_ROUTES.SETUP);
   }
 };
 
@@ -23,7 +20,7 @@ const checkSuperAdminNotExists = async (ctx, next) => {
   if (!superAdminUser) {
     await next();
   } else {
-    return ctx.redirect(ADMIN_LOGIN_ROUTE);
+    return ctx.redirect(ADMIN_ROUTES.LOGIN);
   }
 };
 

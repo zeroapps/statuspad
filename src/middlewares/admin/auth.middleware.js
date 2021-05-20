@@ -1,8 +1,8 @@
-const { ADMIN_LOGIN_ROUTE } = require("../../constants/routes/admin.constant");
+const { ADMIN_ROUTES } = require("../../constants/admin.constant");
 
 const authGuard = async (ctx, next) => {
   if (!ctx.session.user) {
-    return ctx.redirect(ADMIN_LOGIN_ROUTE);
+    return ctx.redirect(ADMIN_ROUTES.LOGIN);
   }
   await next();
 };
