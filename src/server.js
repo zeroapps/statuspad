@@ -37,7 +37,7 @@ app.use(koaBody());
 
 app.use(serve(path.join(__dirname, "..", "public")));
 
-app.use(router.routes());
+app.use(router.middleware());
 
 // Catch 404 Errors
 app.use(async (ctx, next) => {

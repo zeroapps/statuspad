@@ -19,28 +19,41 @@
     <div class="page page-center">
       <div class="container-tight py-4">
         <div class="text-center mb-4">
-          <a href="."><img src="./static/logo.svg" height="36" alt=""></a>
+          <a href="."><img src="/images/login-bot.svg" height="75" alt=""></a>
         </div>
-        <form class="card card-md" action="." method="get">
+        <div class="alert-error-box">
+        </div>
+        <form id="setup-form" class="card card-md">
           <div class="card-body">
             <h2 class="card-title text-center mb-4">Create SuperAdmin User</h2>
             <div class="mb-3">
               <label class="form-label">Name</label>
-              <input type="text" class="form-control" placeholder="Enter name">
+              <input name="name" type="text" class="form-control"  placeholder="Enter name" required>
             </div>
             <div class="mb-3">
               <label class="form-label">Email address</label>
-              <input type="email" class="form-control" placeholder="Enter email">
+              <input name="email" type="email" class="form-control" placeholder="Enter email" required>
             </div>
             <div class="mb-3">
               <label class="form-label">Password</label>
               <div class="input-group input-group-flat">
-                <input type="password" class="form-control"  placeholder="Password"  autocomplete="off">
-                <span class="input-group-text">
+                <input name="password" type="password" class="form-control"  placeholder="Password"  autocomplete="off" required>
+                {{!-- <span class="input-group-text">
                   <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="2" /><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" /></svg>
                   </a>
-                </span>
+                </span> --}}
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Confirm Password</label>
+              <div class="input-group input-group-flat">
+                <input name="confirm_password" type="password" class="form-control"  placeholder="Password"  autocomplete="off" required>
+                {{!-- <span class="input-group-text">
+                  <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="2" /><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" /></svg>
+                  </a>
+                </span> --}}
               </div>
             </div>
             <div class="form-footer">
@@ -53,5 +66,54 @@
     <!-- Libs JS -->
     <!-- Tabler Core -->
     <script src="/js/tabler.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script>
+
+      function checkPasswordValidity(){
+        const password = $('input[name=password]').val()
+        const confirm_password = $('input[name=confirm_password]').val()
+        return password === confirm_password
+      }
+
+      function showError(message){
+        const alert =
+        `<div class="alert alert-important alert-danger alert-dismissible fade show" role="alert">
+          <div class="d-flex">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <circle cx="12" cy="12" r="9"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <span>&ensp;${message}</span>
+          </div>
+          <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+        </div>`
+        $('.alert-error-box').append(alert)
+        $('.alert-error-box .alert').show()
+      }
+
+      $('#setup-form').submit(async function(e){
+        e.preventDefault()
+        if(checkPasswordValidity()){
+          let form = $(this);
+          axios({method: 'post', url: '{{ constants.ADMIN_ROUTES.setup }}', data: form.serialize()})
+          .then(function (response) {
+            // handle success
+            // window.location = '{{ constants.ADMIN_ROUTES.login }}'
+          })
+          .catch(function (error) {
+            // handle error
+            showError(error.response.data.message)
+          })
+        }
+        else{
+          showError('Passwords do not match')
+        }
+      })
+    </script>
   </body>
 </html>
